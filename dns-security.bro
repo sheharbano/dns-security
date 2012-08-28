@@ -5,7 +5,7 @@
 ##! not map to a local dns zone, exceeds a threshold 
 @load base/frameworks/metrics
 
-module DNSAttack;
+module DNSNXDomain;
 
 export {
 	redef enum Notice::Type += {
@@ -33,12 +33,12 @@ export {
 	const dns_nxdomain_external_threshold = 50 &redef;
 
 	## Interval at which to watch for the
-	## :bro:id:`DNSAttack::dns_nxdomain_local_threshold` variable to be crossed.
+	## :bro:id:`DNSNXDomain::dns_nxdomain_local_threshold` variable to be crossed.
 	## At the end of each interval the counter is reset.
 	const dns_nxdomain_local_interval = 5min &redef;
 
 	## Interval at which to watch for the
-	## :bro:id:`DNSAttack::dns_local_nxdomain_threshold` variable to be crossed.
+	## :bro:id:`DNSNXDomain::dns_local_nxdomain_threshold` variable to be crossed.
 	## At the end of each interval the counter is reset.
 	const dns_nxdomain_external_interval = 5min &redef;
 }
@@ -48,7 +48,7 @@ export {
 global zone_patterns: table[count] of pattern;
 
 event bro_init() &priority=3
-	{ 
+	{
 	local idx = 0;
 	for ( zone in Site::local_zones )
 		{
